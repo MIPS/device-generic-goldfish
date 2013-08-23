@@ -243,11 +243,6 @@ void EmulatedFakeCameraDevice::drawCheckerboard()
     const int size = mFrameWidth / 10;
     bool black = true;
 
-    if (size == 0) {
-        ALOGV("mFrameWidth=%d => size=%d\n", mFrameWidth, size);
-        return;
-    }
-
     if((mCheckX / size) & 1)
         black = false;
     if((mCheckY / size) & 1)
