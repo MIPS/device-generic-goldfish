@@ -42,6 +42,11 @@ on boot
     stop dund
     stop akmd
 
+# start essential services
+# These were written for the classic emulator, but are applicable to ranchu
+    start goldfish-logcat
+    start goldfish-setup
+
 # enable dhcpcd on eth0 interface
 service dhcpcd_eth0 /system/bin/dhcpcd -ABDKL
     class main
@@ -52,3 +57,16 @@ service dhcpcd_eth0 /system/bin/dhcpcd -ABDKL
 # like NetworkLocationProvider and LocationCollector
     setprop ro.com.google.locationfeatures 1
 
+service goldfish-setup /system/etc/init.goldfish.sh
+    user root
+    group root
+    oneshot
+
+# -Q is a special logcat option that forces the
+# program to check wether it runs on the emulator
+# if it does, it redirects its output to the device
+# named by the androidboot.console kernel option
+# if not, is simply exits immediately
+
+service goldfish-logcat /system/bin/logcat -Q
+    oneshot
